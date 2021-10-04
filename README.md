@@ -1,3 +1,57 @@
+# import Swal from 'sweetalert2';
+      Swal.fire('Error',e.message,'error');
+
+# npm install firebase
+# npm install --save redux-thunk   MIDDLEWARE async
+# firabase-config 
+# versiondel proyecto "firebase": "^7.14.5",
+ `
+    import firabase from 'firabase/app'
+    import 'firebase/firestore'
+    import 'firebase/auth'
+ `
+
+# Redux
+
+### `Create Reducer`
+import { types } from "../types/types";
+export const authReducer = (state = {} , action)=>{
+    switch (action.type) {
+        case types.login:
+            return{
+                uid:action.payload.uid,
+                name:action.payload.displayName
+            };
+        case types.logout:
+            return {}
+        default:
+            return state;
+    }
+}
+### `Create store`
+import { createStore, combineReducers,applyMiddleware, compose } from 'redux';
+import { authReducer } from '../reducers/authReducer';
+import  thunk  from 'redux-thunk';
+const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+const  reducers = combineReducers({
+     auth:authReducer,
+});
+export const store = createStore( 
+    reducers,
+    composeEnhancers(
+        applyMiddleware(thunk)
+    )
+);
+### `Use Store`
+import {Provider} from 'react-redux';
+import { store } from './store/store';
+export const JournalApp = () => {
+    return (
+        <Provider store={store}>
+            <AppRouter/>
+        </Provider>
+    )
+}
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
