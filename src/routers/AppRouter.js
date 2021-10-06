@@ -14,6 +14,8 @@ import { firebase, googleAuthProvider } from '../firabase/firebase-config';
 import { loginFunction } from '../actions/auth';
 import { PrivateScreen } from "./PrivateScreen";
 import { PublicScreen } from "./PublicScreen";
+import { loadNotes } from "../helpers/loadNotes";
+import { setNote, startLoadingNotes } from "../actions/notes";
 
 export const AppRouter = () => {
 
@@ -24,11 +26,13 @@ export const AppRouter = () => {
 
     useEffect(() => {   
 
-        firebase.auth().onAuthStateChanged((user) =>{
+        firebase.auth().onAuthStateChanged( async (user) =>{
                 //console.log(user);
             if(user?.uid){
                 dispatch(loginFunction(user.uid,user.displayName))
                 setisLoggedIn(true);
+                dispatch(startLoadingNotes(user.uid));
+
             }else{
                 setisLoggedIn(false);
             }
