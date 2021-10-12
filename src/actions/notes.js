@@ -14,10 +14,16 @@ export const startNewNote = ()=>{
             body:'',
             date:new Date().getTime()
         }
-        const docRef= await db.collection(`${uid}/journal/notes`).add(newNote);
-       // console.log(docRef);
-       dispatch(activeNote(docRef.id,newNote));//Envia el OBJ Action y llena el dispatch
-       dispatch(addNewNote(docRef.id,newNote))
+
+        try {
+            
+            const docRef= await db.collection(`${uid}/journal/notes`).add(newNote);
+           // console.log(docRef);
+           dispatch(activeNote(docRef.id,newNote));//Envia el OBJ Action y llena el dispatch
+           dispatch(addNewNote(docRef.id,newNote))
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

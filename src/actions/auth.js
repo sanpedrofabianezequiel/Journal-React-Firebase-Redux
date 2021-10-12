@@ -12,7 +12,7 @@ import { noteLogout } from './notes';
     return (dispatch) =>{
 
         dispatch(startLoading());
-        firebase.auth().signInWithEmailAndPassword(email,password)
+        return firebase.auth().signInWithEmailAndPassword(email,password)
             .then(({user}) =>{
                 dispatch(loginFunction(user.uid,user.displayName));
                 dispatch(finishLoading())
